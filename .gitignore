@@ -1,0 +1,9 @@
+# ignorar carpeta de cache
+__pycache__/
+
+# ignorar base de datos local 
+database.py
+
+# ignorar prueba.py
+
+prueba.py
