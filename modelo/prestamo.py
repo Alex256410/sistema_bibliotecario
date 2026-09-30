@@ -1,25 +1,23 @@
 # logica prestamo
 
-from datos.database import conectar
-from modelo.usuario import Usuario
-from modelo.libro import Libro
 
 class Prestamos:
-    def __init__(self):
-        self.conexion = conectar()
-        self.cursor = self.conexion.cursor()
+    def __init__(self, conexion, usuario, libro):
+        self.usuario = usuario
+        self.libro = libro
+        self.cursor = conexion.cursor()
+        self.conexion = conexion
 
 
     def prestar_libro(self, id_usuario, id_libro):
-        usuario = Usuario()
-        resultado = usuario.buscar_usuario_id(id_usuario)
+        resultado = self.usuario.buscar_usuario_id(id_usuario)
         
         if resultado is None:
             raise ValueError('Este usuario no existe')
         
         
-        ojt_libro = Libro()
-        libro = ojt_libro.buscar_libro_id(id_libro)
+
+        libro = self.libro.buscar_libro_id(id_libro)
         
         if libro is None:
             raise ValueError('El libro no existe')

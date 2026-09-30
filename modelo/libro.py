@@ -1,11 +1,10 @@
 # logica de libro.py
 
-from datos.database import conectar
 
 class Libro:
-    def __init__(self):
-        self.conexion = conectar()
-        self.cursor = self.conexion.cursor()
+    def __init__(self, conexion):
+        self.conexion = conexion
+        self.cursor = conexion.cursor()
         
     def ingresar_libro(self, titulo, autor):
         scrip_usuario = '''

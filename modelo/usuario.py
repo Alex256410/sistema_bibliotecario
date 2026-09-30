@@ -1,12 +1,10 @@
 # logica de usuario.py
 
 
-from datos.database import conectar
-
 class Usuario:
-    def __init__(self):
-        self.conexion = conectar()
-        self.cursor = self.conexion.cursor()
+    def __init__(self, conexion):
+        self.conexion = conexion
+        self.cursor = conexion.cursor()
     
     def ingresar_usuario(self, nombre, email):
         sql_usuario = '''
