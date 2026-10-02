@@ -18,14 +18,14 @@ try:
 
     while True:
         print('Opciones')
-        print('=' * 20 + '\n')
+        print('=' * 50 + '\n')
         print('1. Registar usuario')
         print('2. Registar libro')
         print('3. Mostrar libros disponibles')
-        print('4. Mostar libros prestados')
+        print('4. Mostar libros prestados y devueltos')
         print('5. Prestamos y devolusion de libros')
         print('6. Salir')
-        print('=' * 20 + '\n')
+        print('=' * 50 + '\n')
         
         opcion = input('Elige una opcion: ').strip()
         
@@ -56,33 +56,67 @@ try:
             else:
                 print('\nLibros disponibles:\n')
                 for libro in libros:
-                    print(f'''
-    ID: {libro[0]}
-    Titulo: {libro[1]}
-    Autor: {libro[2]}
-    Disponible: {libro[3]}
-    ''')
+                    texto = f'''
+                    ID: {libro[0]}
+                    Titulo: {libro[1]}
+                    Autor: {libro[2]}
+                    Disponible: {libro[3]}
+                    '''
+                    print(textwrap.dedent(texto))
+    
 
             
         elif opcion == '4':
-            try:
-                libros_prestados = prestamo.mostrar_libros_prestados()
+            while True:
+                print('\n1. Libros prestados')
+                print('2. Libros devueltos')
+                print('3. Volver al menu principal\n')
                 
-                if libros_prestados is None:
-                    print('\nNo hay registros de libros pretados...\n')
+                opcion = input('\nElige una opcion: ')
+                
+                if opcion == '1':
+                    try:
+                        libros_prestados = prestamo.mostrar_libros_prestados()
+                        
+                        if not libros_prestados:
+                            print('No hay libros prestados')
+                        else:
+                            for prestado in libros_prestados:
+                                texto = f'''
+                                    ID: {prestado[0]}
+                                    Usuario: {prestado[1]}
+                                    Libro: {prestado[2]}
+                                    Fecha de prestamo: {prestado[3]}
+                                    '''
+                                print(textwrap.dedent(texto))
+                    except ValueError as e:
+                        print(e)
+                
+                elif opcion == '2':
+                    try:
+                        libros_devueltos = prestamo.mostrar_libros_devueltos()
+                        
+                        if not libros_devueltos:
+                            print('No hay libros devueltos')
+                        else:
+                            for devuelve in libros_devueltos:
+                                texto = f'''
+                                    ID: {devuelve[0]}
+                                    Usuario: {devuelve[1]}
+                                    Libro: {devuelve[2]}
+                                    Fecha de prestamo: {devuelve[3]}
+                                    Fecha de devolucion: {devuelve[4]}
+                                    '''
+                                print(textwrap.dedent(texto))
+                    except ValueError as e:
+                        print(e)
+                        
+                elif opcion == '3':
+                    break
+                
                 else:
-                    print('\nLibros prestados:')
-                    for prestado in libros_prestados:
-                        texto = f'''
-                            ID: {prestado[0]}
-                            ID de usuario: {prestado[1]}
-                            ID de libro: {prestado[2]}
-                            Fecha de prestamo: {prestado[3]}
-                            Devolucion: {prestado[4]}
-                            '''
-                        print(textwrap.dedent(texto))
-            except ValueError as e:
-                print(e)
+                    print('\nAsegurese de elegir 1 de las 3 opciones\n')
+                    
                 
                         
         elif opcion == '5':

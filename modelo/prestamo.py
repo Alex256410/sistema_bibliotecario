@@ -88,13 +88,38 @@ class Prestamos:
         
     def mostrar_libros_prestados(self):
         sql_prestados = '''
-        SELECT * FROM prestamos WHERE fecha_devolusion is NULL
+        SELECT prestamos.id, 
+        usuario.nombre, 
+        libros.titulo,
+        prestamos.fecha_prestamo
+        FROM prestamos 
+        JOIN usuario ON prestamos.id_usuario = usuario.id 
+        JOIN libros ON prestamos.id_libro = libros.id
+        WHERE prestamos.fecha_devolusion IS NULL;
         '''
         
         self.cursor.execute(sql_prestados)
         libros_prestados = self.cursor.fetchall()
-        
+
         return libros_prestados
-            
+    
+    def mostrar_libros_devueltos(self):
+        sql_devueltos = '''
+        SELECT prestamos.id, 
+        usuario.nombre, 
+        libros.titulo,
+        prestamos.fecha_prestamo,
+        prestamos.fecha_devolusion
+        FROM prestamos 
+        JOIN usuario ON prestamos.id_usuario = usuario.id 
+        JOIN libros ON prestamos.id_libro = libros.id
+        WHERE prestamos.fecha_devolusion IS NOT NULL;
+        '''
+        
+        self.cursor.execute(sql_devueltos)
+        libros_devueltos = self.cursor.fetchall()
+        
+
+        return libros_devueltos
             
             
